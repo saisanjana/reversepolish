@@ -1,0 +1,55 @@
+#include<iostream>
+using namespace std;
+#include<string.h>
+int priority(char a){
+    if(a=='+') return 1;
+    else if(a=='-') return 2;
+    else if(a=='*') return 3;
+    else if(a=='/') return 4;
+    else if(a=='^') return 5;
+    else if(a=='(') return 0;
+}
+int main(){
+    int t,i,top,temp;
+    char a[400],stack[400];
+    cin>>t; //No. of test cases
+    top=-1;
+    while(t>0){
+        cin>>a;  // reads t number of times
+        for(i=0;i<strlen(a);i++){
+            if(int(a[i])>=97 && int(a[i])<=122){
+                cout<<a[i];
+            }else if(a[i]=='+'||a[i]=='-'||a[i]=='*'||a[i]=='/'||a[i]=='^'){
+                if(top==-1){
+                    top++;
+                    stack[top]=a[i];
+                }else{
+                    if(priority(stack[top])<priority(a[i])){
+                        top++;
+                        stack[top]=a[i];
+                    }else{
+                        temp=stack[top];
+                        cout<<temp;
+                        top--;
+                    }
+                }
+            }else if(a[i]=='('){top++;stack[top]=a[i];}
+            else if(a[i]==')'){
+                while(stack[top]!='(' && top>-1){
+                    cout<<stack[top];
+                    top--;
+                }
+                top--;
+            }
+        }
+        if(top>-1){
+            while(top>-1){
+                cout<<a[top--];
+            }
+            
+        }
+        cout<<endl;
+        t--;
+    }
+    return 0;
+}
